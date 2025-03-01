@@ -1,29 +1,57 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProducts } from "../store/productSlice";
-import DataTable from "../components/DataTable";
-import Pagination from "../components/Pagination";
-import { RootState, AppDispatch } from "../store/store";
+import { fetchProducts } from "../redux/productSlice";
+import DataTable from "../components/Table";
+import Filters from "../components/Filters";
+import { RootState, AppDispatch } from "../redux/store";
 
 const Products = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const products = useSelector((state: RootState) => state.products.data);
+  const products = useSelector((state: RootState) => state.products.data || []);
   const loading = useSelector((state: RootState) => state.products.loading);
+  const totalProducts = useSelector((state: RootState) => state.products.total || 0);
+
   const [pageSize, setPageSize] = useState(5);
+  const [skip, setSkip] = useState(0);
+  const [filters, setFilters] = useState<{ key: string; value: string }>({ key: "", value: "" });
 
   useEffect(() => {
-    dispatch(fetchProducts(pageSize));
-  }, [dispatch, pageSize]);
+    const searchQuery = filters.value ? filters.value : "";
+    dispatch(fetchProducts({ limit: pageSize, skip, search: searchQuery }));
+  }, [dispatch, pageSize, skip, filters]);
 
-  // Define columns and keys for Products Table
-  const productColumns = ["ID", "Title", "Price", "Category", "Brand", "Stock", "Rating"];
-  const productKeys = ["id", "title", "price", "category", "brand", "stock", "rating"];
+  const handleFilterChange = (key: string, value: string) => {
+    setFilters({ key, value });
+    setSkip(0);
+  };
+
+  const filterOptions = [
+    { key: "title", label: "Title", type: "text" as const },
+    { key: "brand", label: "Brand", type: "text" as const },
+    { key: "category", label: "Category", type: "text" as const },
+  ];
 
   return (
-    <div>
-      <h2>Products List</h2>
-      <Pagination onPageChange={setPageSize} />
-      {loading ? <p>Loading...</p> : <DataTable data={products} columns={productColumns} keys={productKeys} />}
+    <div className="max-w-6xl mx-auto px-10 bg-white shadow-lg rounded-lg">
+      <h2 className="text-xl font-bold p-4">Products</h2>
+      
+      {/* Filters */}
+      <Filters filters={filters} setFilters={handleFilterChange} filterOptions={filterOptions} />
+
+      {loading ? (
+        <p className="text-center text-gray-500">Loading...</p>
+      ) : (
+        <DataTable
+          data={products}
+          columns={["Title", "Brand", "Category", "Price","Rating", "Stock", "Discount Percentage"]}
+          keys={["title", "brand", "category", "price", "rating", "stock", "discountPercentage"]}
+          pageSize={pageSize}
+          setPageSize={setPageSize}
+          skip={skip}
+          setSkip={setSkip}
+          totalItems={totalProducts}
+        />
+      )}
     </div>
   );
 };

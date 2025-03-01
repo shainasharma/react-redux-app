@@ -1,9 +1,10 @@
 import React from "react";
-import ReactDOM from "react-dom/client"; // Import from "react-dom/client" for React 18+
+import ReactDOM from "react-dom/client"; 
 import { Provider } from "react-redux";
-import { store } from "./store/store";
+import { store } from "./redux/store";
 import App from "./App";
-import "./styles.css"; // Import global styles
+import "./index.css"; 
+import "./styles.css"; 
 
 // Get the root element
 const rootElement = document.getElementById("root");

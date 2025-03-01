@@ -1,17 +1,24 @@
 import React from "react";
 
-interface Props {
-  onPageChange: (size: number) => void;
+interface PaginationProps {
+  currentPage: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;
 }
 
-const Pagination: React.FC<Props> = ({ onPageChange }) => {
+const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPageChange }) => {
   return (
-    <select onChange={(e) => onPageChange(Number(e.target.value))}>
-      <option value="5">5</option>
-      <option value="10">10</option>
-      <option value="20">20</option>
-      <option value="50">50</option>
-    </select>
+    <div className="flex justify-center mt-4">
+      {[...Array(totalPages)].map((_, index) => (
+        <button
+          key={index}
+          onClick={() => onPageChange(index + 1)}
+          className={`px-4 py-2 mx-1 ${currentPage === index + 1 ? "bg-yellow" : "bg-grey"}`}
+        >
+          {index + 1}
+        </button>
+      ))}
+    </div>
   );
 };
 

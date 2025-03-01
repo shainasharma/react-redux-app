@@ -1,29 +1,65 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUsers } from "../store/userSlice";
-import DataTable from "../components/DataTable";
-import Pagination from "../components/Pagination";
-import { RootState, AppDispatch } from "../store/store";
+import { fetchUsers } from "../redux/userSlice";
+import DataTable from "../components/Table";
+import Filters from "../components/Filters";
+import { RootState, AppDispatch } from "../redux/store";
 
 const Users = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const users = useSelector((state: RootState) => state.users.data);
+  const users = useSelector((state: RootState) => state.users.data || []);
   const loading = useSelector((state: RootState) => state.users.loading);
+  const totalUsers = useSelector((state: RootState) => state.users.total || 0);
+
   const [pageSize, setPageSize] = useState(5);
+  const [skip, setSkip] = useState(0);
+  const [filters, setFilters] = useState<{ key: string; value: string }>({ key: "", value: "" });
 
   useEffect(() => {
-    dispatch(fetchUsers(pageSize));
-  }, [dispatch, pageSize]);
+    dispatch(fetchUsers({ limit: pageSize, skip, filterKey: filters.key, filterValue: filters.value }));
+  }, [dispatch, pageSize, skip, filters]);
 
-  // Define columns and keys for Users Table
-  const userColumns = ["First Name", "Last Name", "Maiden Name", "Age", "Gender", "Email", "Username", "Blood Group", "Eye Color"];
-  const userKeys = ["firstName", "lastName", "maidenName", "age", "gender", "email", "username", "bloodGroup", "eyeColor"];
+  const handleFilterChange = (key: string, value: string) => {
+    setFilters({ key, value });
+    setSkip(0);
+  };
+
+  const filterOptions = [
+    { key: "firstName", label: "NAME", type: "text" as const },
+    { key: "email", label: "EMAIL", type: "text" as const },
+    { key: "birthDate", label: "DATE OF BIRTH", type: "text" as const },
+    {
+      key: "gender",
+      label: "Gender",
+      type: "select" as const,
+      options: [
+        { label: "Male", value: "male" },
+        { label: "Female", value: "female" },
+      ],
+    },
+  ];
 
   return (
-    <div>
-      <h2>Users List</h2>
-      <div><Pagination onPageChange={setPageSize} /><p> Entries</p></div>
-      {loading ? <p>Loading...</p> : <DataTable data={users} columns={userColumns} keys={userKeys} />}
+    <div className="max-w-6xl mx-auto px-10 bg-white shadow-lg rounded-lg">
+      <h2 className="text-xl font-bold p-4">Users</h2>
+      
+      {/* Filters */}
+      <Filters filters={filters} setFilters={handleFilterChange} filterOptions={filterOptions} />
+
+      {loading ? (
+        <p className="text-center text-gray-500">Loading...</p>
+      ) : (
+        <DataTable
+          data={users}
+          columns={["FIRST NAME", "LAST NAME", "MAIDEN NAME", "EMAIL","AGE","USERNAME","DATE OF BIRTH","BLOODGROUP","EYE COLOR","Gender"]}
+          keys={["firstName","lastName","maidenName", "email","age", "username","birthDate","bloodGroup","eyeColor", "gender"]}
+          pageSize={pageSize}
+          setPageSize={setPageSize} 
+          skip={skip}
+          setSkip={setSkip}
+          totalItems={totalUsers}
+        />
+      )}
     </div>
   );
 };
