@@ -16,9 +16,8 @@ const Products = () => {
   const [filters, setFilters] = useState<{ key: string; value: string }>({ key: "", value: "" });
 
   useEffect(() => {
-    const searchQuery = filters.value ? filters.value : "";
-    dispatch(fetchProducts({ limit: pageSize, skip, search: searchQuery }));
-  }, [dispatch, pageSize, skip, filters]);
+      dispatch(fetchProducts({ limit: pageSize, skip, filterKey: filters.key, filterValue: filters.value }));
+    }, [dispatch, pageSize, skip, filters]);
 
   const handleFilterChange = (key: string, value: string) => {
     setFilters({ key, value });

@@ -1,12 +1,23 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
+// ✅ Fetch products (supports search & filtering)
 export const fetchProducts = createAsyncThunk(
-  "products/fetchProducts",
-  async ({ limit, skip, search }: { limit?: number; skip?: number; search?: string }) => {
-    const url = search
-      ? `https://dummyjson.com/products/search?q=${search}&limit=${limit ?? 10}&skip=${skip ?? 0}`
-      : `https://dummyjson.com/products?limit=${limit ?? 10}&skip=${skip ?? 0}`;
+  "products/fetchproducts",
+  async ({ limit = 10, skip = 0, search, filterKey, filterValue }: { 
+    limit?: number; 
+    skip?: number; 
+    search?: string; 
+    filterKey?: string; 
+    filterValue?: string;
+  }) => {
+    let url = `https://dummyjson.com/products?limit=${limit}&skip=${skip}`;
+
+    if (search) {
+      url = `https://dummyjson.com/products/search?q=${search}`;
+    } else if (filterKey && filterValue) {
+      url = `https://dummyjson.com/products/filter?key=${filterKey}&value=${filterValue}`;
+    }
 
     const response = await axios.get(url);
     return { products: response.data.products, total: response.data.total };
@@ -14,7 +25,7 @@ export const fetchProducts = createAsyncThunk(
 );
 
 const productSlice = createSlice({
-  name: "products",
+  name: "users",
   initialState: { data: [], loading: false, total: 0 },
   reducers: {},
   extraReducers: (builder) => {
