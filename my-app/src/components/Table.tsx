@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { FaSearch } from "react-icons/fa";
-import Filters from "./Filters"; // Import Filters
+import Filters from "./Filters";
+import SearchIcon from "../assets/icons/SearchIcon";
 
 interface Props {
   data: any[];
@@ -55,16 +55,15 @@ const DataTable: React.FC<Props> = ({
             <option value="10">10</option>
             <option value="20">20</option>
             <option value="50">50</option>
-          </select>          
-          <label className="mr-2 text-gray-700 font-semibold ">Entries</label>
+          </select>
+          <label className="mr-2 text-customBlack font-semibold ">Entries</label>
         </div>
 
         {/* Search Bar */}
         <div className="flex items-center mt-6">
-          <FaSearch
-            className="cursor-pointer text-gray-600 mr-2"
-            onClick={() => setShowSearch(!showSearch)} // Toggle input visibility
-          />
+          <button className="p-2 border-x" onClick={() => setShowSearch(!showSearch)} >
+            <SearchIcon className="text-customBlack" />
+          </button>
           {showSearch && (
             <input
               type="text"
@@ -75,27 +74,27 @@ const DataTable: React.FC<Props> = ({
             />
           )}
         </div>
-        
-      {/* Filters Inside DataTable */}
-      <Filters filters={filters} setFilters={setFilters} filterOptions={filterOptions} />
+
+        {/* Filters Inside DataTable */}
+        <Filters filters={filters} setFilters={setFilters} filterOptions={filterOptions} />
       </div>
 
       {/* Table */}
       <div className="overflow-x-auto">
-        <table className="w-full bg-white border border-gray-200 shadow-md rounded-lg min-w-max">
+        <table className="w-full bg-white  border border-customGrey shadow-md rounded-lg min-w-max">
           <thead>
             <tr className="bg-blue-500 text-white">
               {columns.map((col, index) => (
-                <th key={index} className="py-2 px-4 text-customBlack bg-customBlue">{col}</th>
+                <th key={index} className="py-2 px-4 text-customBlack bg-customBlue border-2 border-customGrey">{col}</th>
               ))}
             </tr>
           </thead>
           <tbody>
             {filteredData.length > 0 ? (
               filteredData.map((item, rowIndex) => (
-                <tr key={rowIndex} className="border-b hover:bg-gray-100">
+                <tr key={rowIndex} className="border-b hover:bg-customGrey">
                   {keys.map((key, colIndex) => (
-                    <td key={colIndex} className="py-2 px-4">{item[key]}</td>
+                    <td key={colIndex} className="py-2 px-4 border-2 border-customGrey">{item[key]}</td>
                   ))}
                 </tr>
               ))
@@ -120,7 +119,7 @@ const DataTable: React.FC<Props> = ({
           Previous Page
         </button>
         <span className="px-3 py-1">
-          Page {Math.floor(skip / pageSize) + 1} of {Math.ceil(totalItems / pageSize)}
+          Page {filteredData.length <= 0 ? 0 : Math.floor(skip / pageSize) + 1} of {Math.ceil(totalItems / pageSize)}
         </span>
 
         <button

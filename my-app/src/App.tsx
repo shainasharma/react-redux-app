@@ -4,14 +4,14 @@ import Products from "./pages/Products";
 
 const App = () => {
   const [activeTab, setActiveTab] = useState<"users" | "products">("users"); // Default tab is "users"
-
+  
   return (
-    <div className="max-w-6xl mx-auto mt-8 bg-white shadow-lg rounded-lg p-6">
+    <div className="max-w-6xl mx-auto mt-8 bg-white shadow-lg rounded-lg p-6 font-neutra">
      {/* Tabs Section */}
       <div className="flex justify-center border-b mb-2">
         <button
           className={`px-6 py-2 text-lg font-medium ${
-            activeTab === "users" ? "text-blue-600 border-b-2 border-blue-600" : "text-gray-600"
+            activeTab === "users" ? "text-blue-600 border-b-2 border-blue-600" : "text-customBlack"
           }`}
           onClick={() => setActiveTab("users")}
         >
@@ -19,7 +19,7 @@ const App = () => {
         </button>
         <button
           className={`px-6 py-2 text-lg font-medium ${
-            activeTab === "products" ? "text-blue-600 border-b-2 border-blue-600" : "text-gray-600"
+            activeTab === "products" ? "text-blue-600 border-b-2 border-blue-600" : "text-customBlack"
           }`}
           onClick={() => setActiveTab("products")}
         >

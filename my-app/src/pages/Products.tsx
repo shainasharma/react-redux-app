@@ -15,8 +15,8 @@ const Products = () => {
   const [filters, setFilters] = useState<{ key: string; value: string }>({ key: "", value: "" });
 
   useEffect(() => {
-      dispatch(fetchProducts({ limit: pageSize, skip, filterKey: filters.key, filterValue: filters.value }));
-    }, [dispatch, pageSize, skip, filters]);
+    dispatch(fetchProducts({ limit: pageSize, skip, filterKey: filters.key, filterValue: filters.value }));
+  }, [dispatch, pageSize, skip, filters]);
 
   const handleFilterChange = (key: string, value: string) => {
     setFilters({ key, value });
@@ -31,14 +31,12 @@ const Products = () => {
 
   return (
     <div className="max-w-6xl mx-auto px-10 bg-white shadow-lg rounded-lg">
-      <h2 className="text-xl font-bold p-4">Products</h2>
-
       {loading ? (
         <p className="text-center text-gray-500">Loading...</p>
       ) : (
         <DataTable
           data={products}
-          columns={["Title", "Brand", "Category", "Price","Rating", "Stock", "Discount Percentage","Description"]}
+          columns={["Title", "Brand", "Category", "Price", "Rating", "Stock", "Discount Percentage", "Description"]}
           keys={["title", "brand", "category", "price", "rating", "stock", "discountPercentage", "description"]}
           pageSize={pageSize}
           setPageSize={setPageSize}

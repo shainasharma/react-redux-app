@@ -40,8 +40,6 @@ const Users = () => {
 
   return (
     <div className="max-w-6xl mx-auto px-10 bg-white shadow-lg rounded-lg">
-      <h2 className="text-xl font-bold p-4">Users</h2>
-
       {loading ? (
         <p className="text-center text-gray-500">Loading...</p>
       ) : (
