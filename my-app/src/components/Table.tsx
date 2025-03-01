@@ -40,8 +40,9 @@ const DataTable: React.FC<Props> = ({
   return (
     <div className="overflow-x-auto p-6">
 
-      <div className="flex items-center justify-start gap-1 columns-3">
-        {/* Page Size Selection */}
+      <div className="flex items-center justify-between gap-1 columns-3">
+        <div className="flex items-center justify-start">
+          {/* Page Size Selection */}
         <div className="flex justify-start mt-6">
           <select
             className="border-0 px-2 py-1 rounded-md"
@@ -74,6 +75,9 @@ const DataTable: React.FC<Props> = ({
             />
           )}
         </div>
+        
+        </div>
+        
 
         {/* Filters Inside DataTable */}
         <Filters filters={filters} setFilters={setFilters} filterOptions={filterOptions} />

@@ -29,7 +29,7 @@ const Users = () => {
     { key: "birthDate", label: "DATE OF BIRTH", type: "text" as const },
     {
       key: "gender",
-      label: "Gender",
+      label: "GENDER",
       type: "select" as const,
       options: [
         { label: "Male", value: "male" },
@@ -45,7 +45,7 @@ const Users = () => {
       ) : (
         <DataTable
           data={users}
-          columns={["FIRST NAME", "LAST NAME", "MAIDEN NAME", "EMAIL", "AGE", "USERNAME", "DATE OF BIRTH", "BLOODGROUP", "EYE COLOR", "Gender"]}
+          columns={["FIRST NAME", "LAST NAME", "MAIDEN NAME", "EMAIL", "AGE", "USERNAME", "DATE OF BIRTH", "BLOODGROUP", "EYE COLOR", "GENDER"]}
           keys={["firstName", "lastName", "maidenName", "email", "age", "username", "birthDate", "bloodGroup", "eyeColor", "gender"]}
           pageSize={pageSize}
           setPageSize={setPageSize}
