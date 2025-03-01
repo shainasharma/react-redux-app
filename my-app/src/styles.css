@@ -23,10 +23,6 @@ body {
     text-align: left;
   }
   
-  th {
-    background: #c0e3e5;
-    color: #322625;
-  }
   tr:hover {
     background-color: #ebebeb;
   }

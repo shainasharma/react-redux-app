@@ -7,7 +7,7 @@ module.exports = {
         customGrey: "#ebebeb",
         customBlue: "#c0e3e5",
         customYellow: "#fdc936",
-      },
+      }
     },
   },
   plugins: [],

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUsers } from "../redux/userSlice";
 import DataTable from "../components/Table";
-import Filters from "../components/Filters";
 import { RootState, AppDispatch } from "../redux/store";
 
 const Users = () => {
@@ -42,22 +41,22 @@ const Users = () => {
   return (
     <div className="max-w-6xl mx-auto px-10 bg-white shadow-lg rounded-lg">
       <h2 className="text-xl font-bold p-4">Users</h2>
-      
-      {/* Filters */}
-      <Filters filters={filters} setFilters={handleFilterChange} filterOptions={filterOptions} />
 
       {loading ? (
         <p className="text-center text-gray-500">Loading...</p>
       ) : (
         <DataTable
           data={users}
-          columns={["FIRST NAME", "LAST NAME", "MAIDEN NAME", "EMAIL","AGE","USERNAME","DATE OF BIRTH","BLOODGROUP","EYE COLOR","Gender"]}
-          keys={["firstName","lastName","maidenName", "email","age", "username","birthDate","bloodGroup","eyeColor", "gender"]}
+          columns={["FIRST NAME", "LAST NAME", "MAIDEN NAME", "EMAIL", "AGE", "USERNAME", "DATE OF BIRTH", "BLOODGROUP", "EYE COLOR", "Gender"]}
+          keys={["firstName", "lastName", "maidenName", "email", "age", "username", "birthDate", "bloodGroup", "eyeColor", "gender"]}
           pageSize={pageSize}
-          setPageSize={setPageSize} 
+          setPageSize={setPageSize}
           skip={skip}
           setSkip={setSkip}
           totalItems={totalUsers}
+          filters={filters}
+          setFilters={handleFilterChange}
+          filterOptions={filterOptions}
         />
       )}
     </div>

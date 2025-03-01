@@ -13,7 +13,7 @@ interface FiltersProps {
 
 const Filters: React.FC<FiltersProps> = ({ filters, setFilters, filterOptions }) => {
   return (
-    <div className="flex flex-wrap gap-4 p-4">
+    <div className="flex flex-wrap gap-4 p-4 justify-end">
       {filterOptions.map((filter) => (
         <div key={filter.key} className="w-full md:w-1/5">
           <label className="block text-sm font-bold mb-1">{filter.label}</label>

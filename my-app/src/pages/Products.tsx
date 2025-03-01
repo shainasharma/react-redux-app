@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "../redux/productSlice";
 import DataTable from "../components/Table";
-import Filters from "../components/Filters";
 import { RootState, AppDispatch } from "../redux/store";
 
 const Products = () => {
@@ -33,22 +32,22 @@ const Products = () => {
   return (
     <div className="max-w-6xl mx-auto px-10 bg-white shadow-lg rounded-lg">
       <h2 className="text-xl font-bold p-4">Products</h2>
-      
-      {/* Filters */}
-      <Filters filters={filters} setFilters={handleFilterChange} filterOptions={filterOptions} />
 
       {loading ? (
         <p className="text-center text-gray-500">Loading...</p>
       ) : (
         <DataTable
           data={products}
-          columns={["Title", "Brand", "Category", "Price","Rating", "Stock", "Discount Percentage"]}
-          keys={["title", "brand", "category", "price", "rating", "stock", "discountPercentage"]}
+          columns={["Title", "Brand", "Category", "Price","Rating", "Stock", "Discount Percentage","Description"]}
+          keys={["title", "brand", "category", "price", "rating", "stock", "discountPercentage", "description"]}
           pageSize={pageSize}
           setPageSize={setPageSize}
           skip={skip}
           setSkip={setSkip}
           totalItems={totalProducts}
+          filters={filters}
+          setFilters={handleFilterChange}
+          filterOptions={filterOptions}
         />
       )}
     </div>
